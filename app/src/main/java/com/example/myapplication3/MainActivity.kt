@@ -1,65 +1,66 @@
 package com.example.myapplication3
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
+    val login = "Stanislav"
+    val password = "admin"
+
+    companion object{
+        const val REQUEST_VERMINSKAYA_SATELITE = 0
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("ActivityLife", "onCreate")
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.myButton.setOnClickListener(fun (view: View){
+        binding.submit.setOnClickListener(fun (view: View){
+            if(binding.login.text.toString() != login){
+                val toast: Toast = Toast.makeText(this, "Неверный логин", Toast.LENGTH_SHORT)
+                toast.show()
+                return
+            }
+            if(binding.password.text.toString() != password){
+                val toast: Toast = Toast.makeText(this, "Неверный пароль", Toast.LENGTH_SHORT)
+                toast.show()
+                return
+            }
             val intent = android.content.Intent(this, MainActivity2::class.java)
-            Log.d("WhatIsHappUning", "binding.myTextEdit.text: ${binding.myTextEdit.text}")
-            intent.putExtra("myLittleTextForSecondActivity", binding.myTextEdit.text.toString())
-            startActivity(intent)
-        })
+            startActivityForResult(intent, REQUEST_VERMINSKAYA_SATELITE)
 
-        binding.myButton3.setOnClickListener(fun (view: View){
-            var intent = android.content.Intent(this, MainActivity3::class.java)
-            startActivity(intent)
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d("ActivityLife", "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("ActivityLife", "onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("ActivityLife", "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("ActivityLife", "onStop")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("ActivityLife", "onRestart")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("ActivityLife", "onDestroy")
+    override fun onActivityResult(otkudaPriletelResultat: Int, vseHoroso: Int, intentResultat: android.content.Intent?) {
+        if(otkudaPriletelResultat == REQUEST_VERMINSKAYA_SATELITE){
+            if(intentResultat == null){
+                val toast: Toast = Toast.makeText(this, "Нет не то что памятника, вселенную снесли", Toast.LENGTH_SHORT)
+                toast.show()
+                return
+            }
+            if(vseHoroso == RESULT_OK){
+                val toast: Toast = Toast.makeText(this, intentResultat!!.getStringExtra("Верминская"), Toast.LENGTH_SHORT)
+                val bundle: Bundle = intentResultat!!.getBundleExtra("Стул")!!
+                val parcelable: Parcelable = bundle.getParcelable<MainActivity2.Chair>("Разобранный стул")!!
+                val chair: MainActivity2.Chair = parcelable as MainActivity2.Chair
+                Log.d("Chair", "chair.material = ${chair.material}")
+                toast.show()
+            } else{
+                val toast: Toast = Toast.makeText(this, "Памятник снесли и сдали на металлолом", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+        }
     }
 }
 

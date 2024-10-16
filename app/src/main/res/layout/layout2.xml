@@ -7,22 +7,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity2">
-    <TextView
-        android:id="@+id/myTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/myButton34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to activity 1!"
-        app:layout_constraintTop_toBottomOf="@id/myTextView"
+        android:text="Отправить подарок Верминской и выйти!"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/gift"
+            android:text=""
+            android:hint="Подарок для Верминской"
+            android:textColor="#000000"
+            android:textColorHint="#FFCCCC"
+            app:layout_constraintTop_toBottomOf="@id/myButton34"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
